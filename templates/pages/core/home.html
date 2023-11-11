@@ -1,0 +1,39 @@
+{% extends 'layout/base.html' %}
+{% load thumbnail %}
+{% load humanize %}
+
+{% block title %}
+Instagram
+{% endblock %}
+
+{% block content %}
+<div class="home">
+    <div class="home--contents" data-controller="reveal">
+        {% for media in medias %}
+            {% include "components/blocks/post/card/index.html" %}
+        {% endfor %}
+    </div>
+    <div class="home--aside">
+        <div class="flex items-center gap-4 mb-4">
+            <a href="{% url 'accounts:profile:posts' request.user.username %}">
+                <img src="{% thumbnail request.user.photo.cropped 40x40 crop %}" class="rounded-full" alt="{{ request.user.get_full_name }}" />
+            </a>
+            <div class="">
+                <div class="font-semibold">
+                    <a href="{% url 'accounts:profile:posts' request.user.username %}">{{ request.user.username }}</a>
+                </div>
+                <div>{{ request.user.get_full_name }}</div>
+            </div>
+        </div>
+        <div>
+            <div class="flex items-center justify-between">
+                <div class="font-semibold text-gray-700">Suggested for you</div>
+                <div class="hover:text-gray-800">
+                    <a href="">See all</a>
+                </div>
+            </div>
+            <div></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

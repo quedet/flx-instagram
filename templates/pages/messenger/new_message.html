@@ -1,0 +1,20 @@
+<turbo-frame id="{{ request.turbo.frame }}">
+    <div data-controller="autosearch">
+        <div class="">
+            <div class="flex items-center justify-between border-b px-4 py-2">
+                <div>New Message</div>
+                <button type="button" data-action="click->modal#close">Close</button>
+            </div>
+            <form method="get" action="{% url 'messenger:search-accounts' %}" data-autosearch-target="form" data-action="submit->autosearch#search" class="border-b px-4 py-2">
+                {% csrf_token %}
+                <div class="flex items-center gap-4">
+                    <label for="id_account_search" class="">To: </label>
+                    <input type="text" name="query" placeholder="Search..." id="id_account_search" data-autosearch-target="input" class="flex-[11]" />
+                </div>
+            </form>
+        </div>
+        <div class="py-2 max-h-[600px] overflow-y-auto" data-autosearch-target="renderer">
+            <div class="px-4">No accounts found</div>
+        </div>
+    </div>
+</turbo-frame>

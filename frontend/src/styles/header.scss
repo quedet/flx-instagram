@@ -1,0 +1,173 @@
+@use "./foundations/breakpoints" as breakpoints;
+
+.page--header {
+  @apply z-40 fixed left-0 bottom-0 bg-white border-r;
+
+  @include breakpoints.tablet-and-desktop {
+    @apply top-0;
+
+    .header--mobile {
+      @apply hidden;
+    }
+
+    .header--navbar {
+      @apply z-20 h-full flex flex-col justify-between px-4 py-6;
+
+      .navbar--top {
+        @apply flex flex-col gap-5;
+
+        .navbar--brand {
+          .brand--icon {
+            @apply py-4;
+
+            @include breakpoints.desktop-only {
+              &.brand--tablet {
+                @apply px-2;
+              }
+
+              &.brand--mobile {
+                @apply hidden;
+              }
+            }
+
+            @include breakpoints.tablet-only {
+              &.brand--tablet {
+                @apply hidden;
+              }
+
+              &.brand--mobile {
+                @apply px-2;
+              }
+            }
+          }
+        }
+      }
+
+      .navbar--menu {
+        .navbar--item {
+          &:not(:last-of-type) {
+            @apply mb-2.5;
+          }
+
+          .navbar--link {
+            @apply inline-block px-2 py-3 transition-all;
+
+            @include breakpoints.desktop-only {
+              @apply flex items-center gap-4;
+
+              span {
+                @apply w-40 text-left;
+              }
+            }
+
+            @include breakpoints.tablet-only {
+              span {
+                @apply hidden;
+              }
+            }
+
+            &:hover {
+              @apply bg-gray-100 rounded-md;
+            }
+          }
+        }
+      }
+    }
+
+    .header--sidebar {
+      @apply z-40 fixed top-0 bottom-0 bg-white border-r -left-full w-96 transition-all;
+    }
+
+    &.is--extended {
+      .header--navbar {
+        .navbar--brand {
+          .brand--icon {
+            @apply py-4;
+
+            &.brand--tablet {
+              @apply hidden;
+            }
+
+            &.brand--mobile {
+              @apply px-2 inline-block;
+            }
+          }
+        }
+
+        .navbar--menu {
+          .navbar--item {
+            .navbar--link {
+              @apply inline-block;
+
+              span {
+                @apply hidden;
+              }
+            }
+          }
+        }
+      }
+
+      .header--sidebar {
+        left: 78px;
+      }
+    }
+  }
+
+  @include breakpoints.mobile-only {
+    @apply right-0 z-20 px-4 py-4 border-none border-t;
+
+    .header--navbar {
+      .navbar--brand {
+        @apply hidden;
+      }
+
+      .navbar--menu {
+        @apply flex items-center justify-between;
+
+        .navbar--item {
+          &.item--tablet-and-beyond {
+            @apply hidden;
+          }
+        }
+
+        .navbar--link {
+          span {
+            @apply hidden;
+          }
+        }
+      }
+    }
+
+    .header--sidebar {
+      @apply fixed top-0 w-full h-full -left-full z-30 bg-white transition-all;
+    }
+
+    &.is--extended {
+      .header--sidebar {
+        @apply left-0;
+      }
+    }
+
+    .navbar--bottom {
+      @apply hidden;
+    }
+
+    .header--mobile {
+      @apply fixed top-0 left-0 right-0 z-20 bg-white shadow px-4 py-4 flex items-center justify-between;
+
+      .navbar--menu {
+        @apply flex items-center gap-4;
+
+        .navbar--item {
+          @apply px-2 py-2 hover:bg-gray-100 rounded-full inline-block;
+        }
+      }
+    }
+  }
+}
+
+.no--scroll {
+  @include breakpoints.mobile-only {
+    @apply overflow-hidden;
+  }
+}

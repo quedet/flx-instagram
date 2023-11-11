@@ -1,0 +1,63 @@
+@use "../foundations/breakpoints" as breakpoints;
+
+.form {
+  &.form--primary {
+    @apply flex gap-2 items-end py-2 text-sm;
+
+    .form--area {
+      flex: 11;
+      max-height: 10rem;
+      overflow-y: auto;
+
+      .form--area--input {
+        @apply block w-full;
+      }
+    }
+
+    .form--submit {
+      flex: 1;
+
+      @apply text-blue-500;
+
+      &.is--disabled {
+        @apply hidden;
+      }
+    }
+  }
+
+  &.form--edition {
+    @apply flex flex-col gap-4;
+
+    .form--field {
+      .field--input {
+        @apply border p-2;
+      }
+
+      .field--label {
+        @apply font-semibold;
+      }
+
+      select {
+        @apply border px-1.5 py-2 focus:outline-none;
+      }
+
+      @include breakpoints.tablet-and-desktop {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 1rem;
+
+        .field--label {
+          @apply text-right;
+        }
+
+        .field--submit {
+          grid-column: 2;
+        }
+      }
+
+      @include breakpoints.mobile-only {
+        @apply flex flex-col gap-1;
+      }
+    }
+  }
+}

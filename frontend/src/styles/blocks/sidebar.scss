@@ -1,0 +1,20 @@
+.sidebar {
+  @apply flex flex-col gap-4 px-4;
+
+  .search--header {
+    @apply flex flex-col gap-4 pt-16;
+
+    .search--header--title {
+      @apply text-xl font-semibold py-4;
+    }
+
+    .search--header--form {
+      @apply border flex items-center pl-3 pr-2 py-1.5 rounded-full;
+
+      input {
+        flex: 11;
+        padding-left: 0.25rem;
+      }
+    }
+  }
+}

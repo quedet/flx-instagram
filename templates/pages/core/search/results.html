@@ -1,0 +1,30 @@
+{% load thumbnail %}
+
+<div>
+    <div class="flex flex-col gap-2">
+        {% if is_recent_active %}
+            <div class="text-xl mb-4 font-thin">Recent</div>
+        {% endif %}
+        {% for account in accounts %}
+            <div id="account#{{ account.username }}"
+                 data-uid="{{ account.uid }}"
+                 class="mb-2 flex items-center justify-between cursor-pointer">
+                <div class="flex items-center gap-4" data-url="{% url 'accounts:profile:posts' account.username %}"
+                    data-action="click->instagram#searchHistory click->autosearch#choose">
+                    <img src="{% thumbnail account.photo.cropped 40x40 crop %}" class="rounded-full" alt="{{ account.get_full_name }}'s profile photo" />
+                    <div class="text-sm">
+                        <div class="font-semibold pb-0.5">{{ account.get_full_name }}</div>
+                        <div>{{ account.username }}</div>
+                    </div>
+                </div>
+                {% if is_recent_active %}
+                    <button type="button" data-username="{{ account.username }}" data-action="instagram#deleteItemFormSearchHistory">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 30L30 2m0 28L2 2"/></svg>
+                    </button>
+                {% endif %}
+            </div>
+        {% empty %}
+            <div>No accounts match your query</div>
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{% load humanize %}
+
+{% regroup messages by created_at as message_list %}
+
+{% for message in message_list %}
+    <div class="text-center font-semibold">{{ message.grouper|naturalday|capfirst }}</div>
+    <div id="messenger--messages--container" class="flex flex-col gap-2">
+        {% for msg in message.list %}
+            {% include 'pages/messenger/message/item.html' %}
+        {% endfor %}
+    </div>
+{% endfor %}

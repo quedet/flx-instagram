@@ -1,0 +1,26 @@
+<turbo-frame id="{{ request.turbo.frame }}">
+    <div class="flex items-center justify-between border-b px-6 py-4">
+        <div>Change Profile Photo</div>
+        <button type="button" data-action="modal#close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 30L30 2m0 28L2 2"/></svg>
+        </button>
+    </div>
+    <form method="post" action="{% url 'accounts:manage:profile-picture' %}"
+          data-action="submit->dragdrop#upload" data-controller="dragdrop"
+          enctype="multipart/form-data"
+    >
+        {% csrf_token %}
+        <div>
+            <div id="preview" class="h-96" data-dragdrop-target="preview">
+                <img src="{{ request.user.photo.original.url }}" class="object-cover object-center h-full block mx-auto" alt="" />
+            </div>
+            <footer class="flex items-center gap-4 px-6 py-4">
+                <label for="id_photo">
+                    Change
+                    <input type="file" data-dragdrop-target="input" accept="image/*" id="id_photo" name="photo" hidden data-action="change->dragdrop#changeImage" />
+                </label>
+                <button type="submit" data-dragdrop-target="submit">Upload</button>
+            </footer>
+        </div>
+    </form>
+</turbo-frame>

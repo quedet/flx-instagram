@@ -1,0 +1,145 @@
+{% extends 'layout/base.html' %}
+{% load thumbnail %}
+{% load humanize %}
+
+{% block title %}
+{{ account.get_full_name }} (@{{ account.username }}) &bull; Instagram photos and videos
+{% endblock %}
+
+{% block content %}
+<div class="profile">
+    <div class="profile--container">
+        <header class="profile--header">
+            <div class="header--picture">
+                {% if account.stories.count > 0 %}
+                    <a class="{% if request.user in account.stories.first.viewed_by.all %}header--story--available{% else %}header--story--gradient{% endif %}" href="{% url 'core:stories' account.username account.stories.first.id %}">
+                        <img src="{% thumbnail account.photo.cropped 150x150 crop %}" class="rounded-full" alt="{{ account.username }}'s profile" />
+                    </a>
+                {% else %}
+                    <img src="{% thumbnail account.photo.cropped 150x150 crop %}" class="rounded-full" alt="{{ account.username }}'s profile" />
+                {% endif %}
+            </div>
+            <div class="header--info">
+                <div class="info--primary">
+                    <div>{{ account.username }}</div>
+                    {% if request.user == account %}
+                        <div class="flex items-center gap-4">
+                            <div><a href="{% url 'accounts:manage:profile' %}" class="px-4 py-2 text-sm bg-gray-100 rounded-md hover:bg-gray-300">Edit profile</a></div>
+                            <div><a href="" class="px-4 py-2 text-sm bg-gray-100 rounded-md hover:bg-gray-300">View Archive</a></div>
+                            <div data-controller="dropdown" data-action="click->dropdown#toggle click@window->dropdown#hide">
+                                <div id="dropdown-button" class="relative flex items-center justify-center">
+                                    <button tabindex="0" data-dropdown-target="button" class="inline-block select-none appearance-none">
+                                        <svg aria-label="Options" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Options</title><circle cx="12" cy="12" fill="none" r="8.635" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle><path d="M14.232 3.656a1.269 1.269 0 0 1-.796-.66L12.93 2h-1.86l-.505.996a1.269 1.269 0 0 1-.796.66m-.001 16.688a1.269 1.269 0 0 1 .796.66l.505.996h1.862l.505-.996a1.269 1.269 0 0 1 .796-.66M3.656 9.768a1.269 1.269 0 0 1-.66.796L2 11.07v1.862l.996.505a1.269 1.269 0 0 1 .66.796m16.688-.001a1.269 1.269 0 0 1 .66-.796L22 12.93v-1.86l-.996-.505a1.269 1.269 0 0 1-.66-.796M7.678 4.522a1.269 1.269 0 0 1-1.03.096l-1.06-.348L4.27 5.587l.348 1.062a1.269 1.269 0 0 1-.096 1.03m11.8 11.799a1.269 1.269 0 0 1 1.03-.096l1.06.348 1.318-1.317-.348-1.062a1.269 1.269 0 0 1 .096-1.03m-14.956.001a1.269 1.269 0 0 1 .096 1.03l-.348 1.06 1.317 1.318 1.062-.348a1.269 1.269 0 0 1 1.03.096m11.799-11.8a1.269 1.269 0 0 1-.096-1.03l.348-1.06-1.317-1.318-1.062.348a1.269 1.269 0 0 1-1.03-.096" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                    </button>
+                                    <div data-dropdown-target="menu"
+                                         data-transition-enter="transition ease-out duration-200"
+                                         data-transition-enter-from="opacity-0 translate-y-1"
+                                         data-transition-enter-to="opacity-100 translate-y-0"
+                                         data-transition-leave="transition ease-in duration-150"
+                                         data-transition-leave-from="opacity-100 translate-y-0"
+                                         data-transition-leave-to="opacity-0 translate-y-1"
+                                         class="hidden absolute top-4 right-0 z-10 mt-5 flex w-screen max-w-max">
+                                        <div class="text-sm bg-white shadow-lg rounded border overflow-hidden w-32">
+                                            <button
+                                               data-action="click->modal#open"
+                                               data-url="{% url 'core:create-story' %}"
+                                               class='no-underline block w-full text-left pl-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-nowrap'>Add a story</button>
+                                            <a href="#" class='no-underline block pl-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-nowrap'>Add a reel</a>
+                                            <a href="{% url 'accounts:registration:logout' %}" class='no-underline block pl-4 py-2 text-gray-900 bg-white hover:bg-gray-100 whitespace-nowrap border-t'>Sign Out</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {% if request.user not in account.followers.all %}
+                            <div class="flex items-center gap-4">
+                                <button type="button" data-id="{{ account.uid }}" data-action="click->instagram#follow" class="px-4 py-2 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600">Follow</button>
+                            </div>
+                        {% else %}
+                            <div class="flex items-center gap-4">
+                                <button type="button" data-id="{{ account.uid }}" data-action="click->instagram#follow" class="px-4 py-2 text-sm bg-gray-100 rounded-md hover:bg-gray-300">Unfollow</button>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="info--details">
+                    <div>{{ account.medias.count }} post{{ account.medias.count|pluralize }}</div>
+                    <button type="button" data-action="click->modal#open" data-url="{% url 'accounts:profile:followers' account.username %}">
+                        {{ account.followers.count }} follower{{ account.followers.count|pluralize }}
+                    </button>
+                    <button type="button" data-action="click->modal#open" data-url="{% url 'accounts:profile:following' account.username %}">
+                        {{ account.followings.count }} following{{ account.followings.count|pluralize }}
+                    </button>
+                </div>
+                <div>{{ account.get_full_name }}</div>
+            </div>
+        </header>
+        <div class="profile--navbar">
+            <nav class="navbar--menu">
+                <div class="navbar--item{% if section == 'posts' %} is--active{% endif %}">
+                    <a href="{% url 'accounts:profile:posts' account.username %}" class="navbar--link">
+                        <svg aria-label="" class="x1lliihq x1n2onr6 x5n08af" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><title></title><rect fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="18" x="3" y="3"></rect><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="9.015" x2="9.015" y1="3" y2="21"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="14.985" x2="14.985" y1="3" y2="21"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21" x2="3" y1="9.015" y2="9.015"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="21" x2="3" y1="14.985" y2="14.985"></line></svg>
+                        <span>POSTS</span>
+                    </a>
+                </div>
+                <div class="navbar--item{% if section == 'reels' %} is--active{% endif %}">
+                    <a href="{% url 'accounts:profile:reels' account.username %}" class="navbar--link">
+                        <svg aria-label="" class="x1lliihq x1n2onr6 x1roi4f4" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><title></title><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="2.049" x2="21.95" y1="7.002" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="13.504" x2="16.362" y1="2.001" y2="7.002"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.207" x2="10.002" y1="2.11" y2="7.002"></line><path d="M2 12.001v3.449c0 2.849.698 4.006 1.606 4.945.94.908 2.098 1.607 4.946 1.607h6.896c2.848 0 4.006-.699 4.946-1.607.908-.939 1.606-2.096 1.606-4.945V8.552c0-2.848-.698-4.006-1.606-4.945C19.454 2.699 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.546 2 5.704 2 8.552Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M9.763 17.664a.908.908 0 0 1-.454-.787V11.63a.909.909 0 0 1 1.364-.788l4.545 2.624a.909.909 0 0 1 0 1.575l-4.545 2.624a.91.91 0 0 1-.91 0Z" fill-rule="evenodd"></path></svg>
+                        <span>REELS</span>
+                    </a>
+                </div>
+                {% if request.user == account %}
+                    <div class="navbar--item{% if section == 'bookmark' %} is--active{% endif %}">
+                        <a href="{% url 'accounts:profile:bookmarked' account.username %}" class="navbar--link">
+                            <svg aria-label="" class="x1lliihq x1n2onr6 x1roi4f4" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><title></title><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon></svg>
+                            <span>SAVED</span>
+                        </a>
+                    </div>
+                {% endif %}
+                <div class="navbar--item{% if section == 'tagged' %} is--active{% endif %}">
+                    <a href="{% url 'accounts:profile:tagged' account.username %}" class="navbar--link">
+                        <svg aria-label="" class="x1lliihq x1n2onr6 x1roi4f4" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><title></title><path d="M10.201 3.797 12 1.997l1.799 1.8a1.59 1.59 0 0 0 1.124.465h5.259A1.818 1.818 0 0 1 22 6.08v14.104a1.818 1.818 0 0 1-1.818 1.818H3.818A1.818 1.818 0 0 1 2 20.184V6.08a1.818 1.818 0 0 1 1.818-1.818h5.26a1.59 1.59 0 0 0 1.123-.465Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M18.598 22.002V21.4a3.949 3.949 0 0 0-3.948-3.949H9.495A3.949 3.949 0 0 0 5.546 21.4v.603" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><circle cx="12.072" cy="11.075" fill="none" r="3.556" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle></svg>
+                        <span>TAGGED</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <div class="profile--contents">
+            {% block profile_contents %}
+                {% if account.medias.count > 0 %}
+                    <div class="contents--media--cards">
+                         {% for media in account.medias.all %}
+                            {% include "components/blocks/post/card/lite.html" %}
+                        {% endfor %}
+                    </div>
+                {% elif request.user == account %}
+                    <div class="contents--placeholder">
+                        <div class="placeholder--icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16.73q1.567 0 2.65-1.08q1.08-1.083 1.08-2.65t-1.08-2.65Q13.566 9.27 12 9.27t-2.65 1.08Q8.27 11.433 8.27 13t1.081 2.65q1.082 1.08 2.649 1.08Zm0-1q-1.165 0-1.948-.782T9.269 13q0-1.165.783-1.948T12 10.269q1.165 0 1.948.783T14.731 13q0 1.165-.783 1.948T12 15.731ZM4.615 20q-.69 0-1.152-.462Q3 19.075 3 18.385V7.615q0-.69.463-1.152Q3.925 6 4.615 6h2.958l1.85-2h5.154l1.85 2h2.958q.69 0 1.152.463q.463.462.463 1.152v10.77q0 .69-.462 1.152q-.463.463-1.153.463H4.615Zm0-1h14.77q.269 0 .442-.173t.173-.442V7.615q0-.269-.173-.442T19.385 7h-3.397l-1.844-2H9.856L8.012 7H4.615q-.269 0-.442.173T4 7.615v10.77q0 .269.173.442t.442.173ZM12 13Z"/></svg>
+                        </div>
+                        <h3 class="placeholder--title">
+                            Share Photos
+                        </h3>
+                        <p>When you share photos, they will appear on your profile.</p>
+                        <div>
+                            <button class="placeholder--action" type="button" data-action="click->modal#open" data-url="{% url 'core:create' %}">
+                                Share your first photo
+                            </button>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="contents--placeholder">
+                        <div class="placeholder--icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16.73q1.567 0 2.65-1.08q1.08-1.083 1.08-2.65t-1.08-2.65Q13.566 9.27 12 9.27t-2.65 1.08Q8.27 11.433 8.27 13t1.081 2.65q1.082 1.08 2.649 1.08Zm0-1q-1.165 0-1.948-.782T9.269 13q0-1.165.783-1.948T12 10.269q1.165 0 1.948.783T14.731 13q0 1.165-.783 1.948T12 15.731ZM4.615 20q-.69 0-1.152-.462Q3 19.075 3 18.385V7.615q0-.69.463-1.152Q3.925 6 4.615 6h2.958l1.85-2h5.154l1.85 2h2.958q.69 0 1.152.463q.463.462.463 1.152v10.77q0 .69-.462 1.152q-.463.463-1.153.463H4.615Zm0-1h14.77q.269 0 .442-.173t.173-.442V7.615q0-.269-.173-.442T19.385 7h-3.397l-1.844-2H9.856L8.012 7H4.615q-.269 0-.442.173T4 7.615v10.77q0 .269.173.442t.442.173ZM12 13Z"/></svg>
+                        </div>
+                        <h3 class="placeholder--title">
+                            No Photos Yet
+                        </h3>
+                    </div>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

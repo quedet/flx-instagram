@@ -1,0 +1,77 @@
+@use "../foundations/breakpoints" as breakpoints;
+
+.card {
+  @apply flex flex-col gap-2 text-sm;
+
+  .card--header,
+  .card--actions {
+    @apply flex items-center justify-between;
+  }
+
+  .card--actions {
+    .card--action--left {
+      @apply flex items-center gap-3;
+    }
+  }
+
+  .card--info {
+    .card--info--content {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: var(--read-more-line-clamp, 2);
+    }
+  }
+
+  .card--comments {
+    @apply border-b;
+  }
+
+  .card--media {
+    .card--media--picture {
+      @apply animate-pulse;
+
+      img {
+        @apply opacity-0 object-center object-cover;
+      }
+
+      &.loaded {
+        @apply animate-none;
+
+        img {
+          @apply opacity-100 transition-opacity duration-700 ease-in-out;
+        }
+      }
+    }
+  }
+}
+
+.lite {
+  @apply relative cursor-pointer;
+
+  .lite--icon {
+    @apply absolute top-2 right-2 text-white;
+
+    @include breakpoints.mobile-only {
+      svg {
+        @apply w-4 h-4;
+      }
+    }
+  }
+
+  .lite--info {
+    @apply hidden;
+  }
+
+  &:hover {
+    .lite--info {
+      @apply flex items-center justify-center gap-4;
+      @apply absolute top-0 left-0 w-full h-full;
+      @apply text-white bg-black bg-opacity-50;
+
+      .info--item {
+        @apply flex items-center gap-1;
+      }
+    }
+  }
+}

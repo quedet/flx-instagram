@@ -1,0 +1,78 @@
+{% extends 'layout/story.html' %}
+
+{% load thumbnail %}
+
+{% block title %}
+Stories &bull; Instagram
+{% endblock %}
+
+{% block content %}
+    <div class="w-full h-screen bg-gray-900 py-8 overflow-hidden" data-controller="story">
+        <button type="button" class="fixed top-0 right-0 p-4 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 30L30 2m0 28L2 2"/></svg>
+        </button>
+        <div class="h-full flex justify-center">
+            {% if previous_url %}
+                <div class="flex items-center justify-center">
+                    <button class="text-black">
+                        <a href="{{ previous_url }}" class="p-0.5 bg-white rounded-full inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6l6 6l1.41-1.41L10.83 12l4.58-4.59z"/></svg>
+                        </a>
+                    </button>
+                </div>
+            {% endif %}
+            <div class="relative">
+                <div class="absolute w-full top-0 left-0 h-1 flex items-center gap-2 px-4 py-4">
+                    {% for i in stories_range %}
+                        <div {% if i == story.id %}data-story-target="progress"{% endif %} class="story--progress">
+                            <div {% if i == story.id %}id="progress__filled"{% endif %}
+                                 class="story--progress--filled"
+                                style="transition: width 200ms linear; {% if i <= previous_id %} width: 100%;{% else %} width: 0;{% endif %}"
+                            ></div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <video data-story-target="video"
+                       data-action="mousedown->story#pause mouseup->story#play play->story#playing pause->story#stopped timeupdate->story#timing"
+                       poster="{{ story.thumbnail.url }}" class="h-full rounded-md bg-black"
+                       style="aspect-ratio: 9 / 16">
+                    <source src="{% url 'video-stream' %}?path={{ story.video.url }}" type="video/mp4" />
+                </video>
+                <div class="absolute bottom-0 left-0 w-full text-white flex items-center justify-between px-4 py-4">
+                    <div class="flex items-center gap-2">
+                        <img src="{% thumbnail story.user.profile.picture.original 30x30 crop %}" class="rounded-full" alt="profile" />
+                        {{ story.user.username }}
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button data-story-target="play" data-action="click->story#togglePlay">
+                            <svg aria-label="Play" class="x1lliihq x1n2onr6 x9bdzbf" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><title>Play</title><path d="M5.888 22.5a3.46 3.46 0 0 1-1.721-.46l-.003-.002a3.451 3.451 0 0 1-1.72-2.982V4.943a3.445 3.445 0 0 1 5.163-2.987l12.226 7.059a3.444 3.444 0 0 1-.001 5.967l-12.22 7.056a3.462 3.462 0 0 1-1.724.462Z"></path></svg>
+                        </button>
+                        <div class="popover"
+                             data-controller="popover" data-popover-translate-x="0"
+                             data-popover-translate-y="128%" data-action="mouseenter->popover#show mouseleave->popover#hide"
+                        >
+                            <span class="wt--menu--link bg-red-500">
+                                <svg aria-label="Video has no audio." class="x1lliihq x1n2onr6 x9bdzbf" fill="currentColor" height="16" role="img" viewBox="0 0 24 24" width="16"><title>Video has no audio.</title><path d="M11.403 1.083a1.001 1.001 0 0 0-1.082.187L5.265 6H2a1 1 0 0 0-1 1v10.003a1 1 0 0 0 1 1h3.265l5.01 4.682.02.021a1 1 0 0 0 1.704-.814L12.005 2a1 1 0 0 0-.602-.917ZM20.704 12l1.94-1.94a1.5 1.5 0 0 0-2.122-2.12l-1.939 1.939-1.94-1.94a1.5 1.5 0 1 0-2.12 2.122L16.461 12l-1.94 1.94a1.5 1.5 0 1 0 2.122 2.12l1.939-1.939 1.94 1.94a1.5 1.5 0 0 0 2.12-2.122Z"></path></svg>
+                            </span>
+                            <div class="content hidden absolute -top-2 max-w-xs bg-transparent rounded py-2 text-xs" data-popover-target="content">
+                                <input type="range" data-action="input->story#handleVolume" min="0" max="100" value="50" id="volume" class="" />
+                            </div>
+                        </div>
+                        <button>
+                            <svg aria-label="Menu" class="x1lliihq x1n2onr6 x9bdzbf" fill="currentColor" height="24" role="img" viewBox="0 0 24 24" width="24"><title>Menu</title><circle cx="12" cy="12" r="2.75"></circle><circle cx="19.5" cy="12" r="2.75"></circle><circle cx="4.5" cy="12" r="2.75"></circle></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% if next_url %}
+                <div class="flex items-center justify-center">
+                    <button class="text-black">
+                         <a href="{{ next_url }}" class="p-0.5 bg-white rounded-full inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g transform="translate(24 0) scale(-1 1)"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6l6 6l1.41-1.41L10.83 12l4.58-4.59z"/></g></svg>
+                         </a>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

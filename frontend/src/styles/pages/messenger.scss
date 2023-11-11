@@ -1,0 +1,62 @@
+@use "../foundations/breakpoints" as breakpoints;
+
+.messenger {
+  @apply w-full h-screen overflow-hidden;
+
+  @include breakpoints.tablet-and-desktop {
+    @apply flex;
+
+    .messenger--left {
+      @apply border-r;
+
+      width: 400px;
+    }
+
+    .messenger--right {
+      @apply relative;
+
+      width: calc(100vw - 668px);
+    }
+  }
+
+  .messenger--left {
+    .messenger--header {
+      @apply px-4 py-4 flex flex-col gap-2;
+
+      .header--primary,
+      .header--secondary {
+        @apply flex items-center justify-between;
+      }
+    }
+
+    .messenger--messages {
+      @apply h-full;
+
+      .messages--container {
+        @apply h-full flex items-center justify-center;
+      }
+    }
+  }
+
+  .messenger--right {
+    .messenger--placeholder {
+      @apply h-full flex flex-col gap-2 items-center justify-center;
+    }
+
+    &.conversation {
+      @apply relative;
+
+      .conversation--header {
+        @apply sticky top-0 px-6 py-4 border-b;
+      }
+
+      .conversation--messages {
+        @apply overflow-y-auto px-6 py-6 h-full pb-40;
+      }
+
+      .conversation--form {
+        @apply absolute bottom-0 left-0 w-full px-6 py-4 bg-white border-t;
+      }
+    }
+  }
+}

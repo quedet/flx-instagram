@@ -1,0 +1,8 @@
+<form method="post" class="form form--primary"
+      id="messenger--form"
+      data-action="submit->instagram#sendMessage"
+      data-controller="form"
+>
+    {% csrf_token %}
+    {% include "pages/messenger/form/inner.html" %}
+</form>

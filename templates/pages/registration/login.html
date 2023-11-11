@@ -1,0 +1,92 @@
+{% extends 'layout/registration.html' %}
+
+{% block title %}
+Log in
+{% endblock %}
+
+{% block content %}
+    <div class="inst--registration">
+        <header class="registration--header">
+            <div class="header--logo">
+                <div aria-disabled="false" role="button" tabindex="0" style="cursor: pointer;"><i data-visualcompletion="css-img" aria-label="Instagram" class="" role="img" style="background-image: url(&quot;https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png&quot;); background-position: 0px -52px; background-size: auto; width: 175px; height: 51px; background-repeat: no-repeat; display: inline-block;"></i></div>
+            </div>
+            <p class="header--caption">Log in to see photos and videos from your friends.</p>
+        </header>
+        <form method="post" data-controller="registration" class="registration--form">
+            {% csrf_token %}
+            <div class="form--item form--fields">
+                <div data-registration-target="input" class="form--field">
+                    <div class="form--field--container">
+                        <label for="{{ form.identifier.id_for_label }}" class="form--label">{{ form.identifier.label }}</label>
+                        {{ form.identifier }}
+                    </div>
+                    {% if form.identifier.errors %}
+                        <span class="form--field--message danger" data-turbo-temporary="true">{{ form.identifier.errors }}</span>
+                    {% endif %}
+                </div>
+                <div data-registration-target="input" class="form--field">
+                    <div class="form--field--container">
+                        <label for="{{ form.password.id_for_label }}" class="form--label">{{ form.password.label }}</label>
+                        {{ form.password }}
+                    </div>
+                    {% if form.password.errors %}
+                        <span class="form--field--message danger" data-turbo-temporary="true">{{ form.password.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form--item form--forgot">
+                <p>
+                    <a href="">Forgot password</a>
+                </p>
+            </div>
+            <button type="submit" class="form--item form--submit">Log in</button>
+            <div>
+                <p>Don't have an account? <a href="{% url 'accounts:registration:signup' %}" class="form--link">Sign up</a></p>
+            </div>
+        </form>
+        <footer class="registration--footer">
+            <nav class="footer--navmenu">
+                <div class="nav--item">
+                    <a href="">Meta</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">About</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Blog</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Jobs</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Help</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">API</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Privacy</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Terms</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Locations</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Instagram Lite</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Threads</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Contact Uploading & Non-Users</a>
+                </div>
+                <div class="nav--item">
+                    <a href="">Meta Verified</a>
+                </div>
+            </nav>
+            <p class="footer--copy"><span>English</span> &copy; 2023 Instagram from Meta</p>
+        </footer>
+    </div>
+{% endblock %}

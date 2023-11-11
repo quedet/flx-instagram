@@ -1,0 +1,24 @@
+@use "../foundations/breakpoints" as breakpoints;
+
+.explore {
+  .explore--contents {
+    display: grid;
+    gap: 1rem;
+
+    @apply py-8;
+
+    @include breakpoints.desktop-only {
+      grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    }
+
+    @include breakpoints.tablet-only {
+      grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    }
+
+    @include breakpoints.mobile-only {
+      @apply py-20;
+
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    }
+  }
+}

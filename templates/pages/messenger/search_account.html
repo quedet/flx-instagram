@@ -1,0 +1,17 @@
+{% load thumbnail %}
+
+<div>
+    {% for account in accounts %}
+        <div data-action="click->autosearch#choose" data-url="{% url 'messenger:room' account.id %}" class="flex items-center gap-4 hover:bg-gray-100 cursor-pointer px-4 py-2">
+            <img src="{% thumbnail account.profile.picture.original 40x40 crop %}" alt="{{ account.username }}'s profile picture" class="rounded-full" />
+            <div>
+                <div class="text-sm">{{ account.get_full_name }}</div>
+                <div class="text-xs">{{ account.username }}</div>
+            </div>
+        </div>
+        {% empty %}
+        <div>
+            <p>No accounts found.</p>
+        </div>
+    {% endfor %}
+</div>

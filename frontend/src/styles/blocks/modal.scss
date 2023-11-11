@@ -1,0 +1,17 @@
+.modal {
+  @apply relative z-40;
+
+  .modal--container {
+    @apply max-h-screen w-full max-w-2xl relative;
+
+    .modal--card {
+      @apply m-2 bg-white rounded shadow;
+    }
+  }
+
+  &.details {
+    .modal--container {
+      @apply max-w-6xl;
+    }
+  }
+}

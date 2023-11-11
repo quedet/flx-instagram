@@ -1,0 +1,17 @@
+{% extends 'layout/base.html' %}
+{% load thumbnail %}
+{% load humanize %}
+
+{% block title %}
+Instagram
+{% endblock %}
+
+{% block content %}
+<div class="explore">
+    <div class="explore--contents">
+        {% for media in medias %}
+            {% include "components/blocks/post/card/lite.html" %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load thumbnail %}
+
+<turbo-frame id="{{ request.turbo.frame }}">
+    <header class="flex items-center justify-between border-b px-4 py-2">
+        <div>Followers</div>
+        <button type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 30L30 2m0 28L2 2"/></svg>
+        </button>
+    </header>
+    <div class="py-2 px-4">
+        {% for follower in followers %}
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <img src="{% thumbnail follower.profile.picture.original 30x30 crop %}" class="rounded-full" alt=""/>
+                    <div class="text-sm">
+                        <div class="font-semibold">{{ follower.username }}</div>
+                        <div>{{ follower.get_full_name }}</div>
+                    </div>
+                </div>
+                {% if request.user != follower %}
+                    <button id="{{ follower.uid }}--follow" type="button" data-action="click->instagram#follow" data-id="{{ follower.uid }}" class="px-2.5 py-1 bg-blue-500 text-white rounded-md">Follow</button>
+                {% else %}
+                    <button id="{{ follower.uid }}--follow" type="button" data-action="click->instagram#follow" data-id="{{ follower.uid }}" class="px-2.5 py-1 bg-blue-500 text-white rounded-md">Unfollow</button>
+                {% endif %}
+            </div>
+        {% empty %}
+            <div class="text-center py-4">
+                <p>No Followers Yet</p>
+            </div>
+        {% endfor %}
+    </div>
+</turbo-frame>

@@ -1,0 +1,52 @@
+.details {
+  @apply flex text-sm overflow-hidden;
+
+  .details--info {
+    @apply flex flex-col relative;
+
+    width: 110rem;
+
+    .details--header {
+      @apply sticky top-0 flex items-center border-b py-4 px-4 gap-2 bg-white;
+    }
+
+    .details--comments {
+      // overflow-y: auto;
+      // height: calc(100vh - 20rem);
+    }
+
+    .details--footer {
+      @apply w-full bg-white absolute bottom-0 left-0;
+    }
+  }
+
+  .details--media {
+    @apply w-auto relative z-0;
+  }
+
+  .card--actions {
+    @apply flex items-center justify-between;
+
+    .card--action--left {
+      @apply flex items-center gap-3;
+    }
+  }
+
+  .card--comments {
+    @apply flex py-2 text-sm;
+
+    .card--comment--input {
+      flex: 11;
+    }
+
+    .card--comment--submit {
+      flex: 1;
+
+      @apply text-blue-500;
+
+      &.is--disabled {
+        @apply hidden;
+      }
+    }
+  }
+}

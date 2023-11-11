@@ -1,0 +1,90 @@
+.inst--registration {
+  @apply flex flex-col gap-8 px-4 py-6 text-sm;
+
+  .registration--header,
+  .registration--form {
+    @apply w-full max-w-md mx-auto;
+  }
+
+  .registration--header {
+    @apply text-center text-lg;
+  }
+
+  .registration--form {
+    @apply flex flex-col gap-4;
+
+    .form--link {
+      color: #1877f2;
+    }
+
+    .form--item {
+      .form--link {
+        color: #00376b;
+      }
+    }
+
+    .form--fields {
+      @apply flex flex-col gap-2;
+
+      .form--field {
+        .form--field--container {
+          @apply flex flex-col gap-1 border px-2 py-1;
+
+          .form--label {
+            @apply self-start;
+          }
+
+          .form--input {
+            @apply outline-none;
+          }
+        }
+
+        .form--field--message {
+          @apply block mt-1 mb-2 px-2;
+
+          &.danger {
+            @apply text-red-500;
+          }
+
+          &.valid {
+            @apply text-green-500;
+          }
+        }
+
+        &.error {
+          .form--field--container {
+            @apply border-red-500 text-red-500;
+          }
+        }
+      }
+    }
+
+    .form--legals {
+      @apply text-center;
+
+      p:not(:last-of-type) {
+        @apply pb-4;
+      }
+    }
+
+    .form--submit {
+      text-align: center;
+      background-color: #4cb5f9;
+      color: #fff;
+
+      @apply font-semibold py-2 rounded;
+    }
+  }
+
+  .registration--footer {
+    @apply text-gray-700;
+
+    .footer--navmenu {
+      @apply flex flex-wrap gap-4 justify-center;
+    }
+
+    .footer--copy {
+      @apply text-center py-4;
+    }
+  }
+}

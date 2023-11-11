@@ -1,0 +1,87 @@
+{% extends 'layout/base.html' %}
+{% load thumbnail %}
+
+{% block title %}
+Edit profile &bull; Instagram
+{% endblock %}
+
+{% block content %}
+<div class="manage">
+    <div class="manager--aside">
+        <header>
+            <div class="font-bold text-xl px-4 py-4 mb-3">Settings</div>
+        </header>
+        <nav class="text-sm">
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Edit profile</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Language preferences</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Apps and websites</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Email notifications</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Push notifications</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">What you see</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Who can see your content</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">How others can interact with you</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Supervision</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Help</a>
+            </div>
+            <div>
+                <a href="{% url 'accounts:manage:profile' %}" class="block px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-md">Subscriptions</a>
+            </div>
+        </nav>
+    </div>
+    <div class="manager--contents">
+        <div class="text-2xl my-8">Edit profile</div>
+        <form method="post" class="form form--edition">
+            {% csrf_token %}
+            <div class="form--field items-center">
+                <img src="{% thumbnail request.user.photo.cropped 40x40 crop %}" class="field--img justify-self-end rounded-full" alt="" />
+                <div>
+                    <div>{{ request.user.username }}</div>
+                    <div><button type="button" data-url="{% url 'accounts:manage:profile-picture' %}" data-action="modal#open" class="font-semibold text-blue-500 text-sm">Change profile photo</button> </div>
+                </div>
+            </div>
+            <div class="form--field" data-controller="character-counter" data-character-counter-countdown-value="true">
+                <label for="{{ form.bio.id_for_label }}" class="field--label">{{ form.bio.label }}</label>
+                <div class="flex flex-col">
+                    {{ form.bio }}
+                    <p data-character-counter-target="counter"></p>
+                </div>
+            </div>
+            <div class="form--field">
+                <label for="{{ form.gender.id_for_label }}" class="field--label">{{ form.gender.label }}</label>
+                {{ form.gender }}
+            </div>
+            <div class="form--field">
+                <label for="{{ form.enable_suggestions.id_for_label }}" class="field--label">{{ form.enable_suggestions.label }}</label>
+                <div class="flex items-center gap-4 justify-start">
+                    {{ form.enable_suggestions }}
+                    <p>Choose whether people can see similar account suggestions on your profile, and whether your account can be suggested on other profiles.</p>
+                </div>
+            </div>
+            <div class="form--field">
+                <div class="field--submit">
+                    <button type="submit" class="px-4 py-2 bg-blue-500 rounded-md text-white transition-all hover:bg-blue-600">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

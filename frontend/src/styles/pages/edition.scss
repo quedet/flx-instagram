@@ -1,0 +1,24 @@
+@use "../foundations/breakpoints" as breakpoints;
+
+.manage {
+  @include breakpoints.tablet-and-desktop {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+
+    .manager--aside {
+      @apply border-r px-4;
+    }
+  }
+
+  @include breakpoints.mobile-only {
+    @apply py-20;
+
+    .manager--aside {
+      @apply hidden;
+    }
+  }
+
+  .manager--contents {
+    @apply px-6;
+  }
+}

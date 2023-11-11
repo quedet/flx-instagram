@@ -1,0 +1,24 @@
+# dependencies
+node_modules
+
+# production
+frontend/build
+
+# media files
+media
+
+# mutations
+apps/**/migrations
+
+# static files
+static
+
+# misc
+.DS_Store
+
+npm-debug.log
+yarn-error.log
+yarn.lock
+.yarnclean
+.vscode
+.idea

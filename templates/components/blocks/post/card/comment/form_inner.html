@@ -1,0 +1,12 @@
+<input type="hidden" name="id" value="{{ media.id }}">
+<input type="hidden" name="type" value="{{ media.mime_type }}">
+<div class="form--area">
+    <textarea data-controller="textarea-autogrow"
+              rows="1" placeholder="Add a comment..."
+              class="form--area--input"
+              name="comment" id="id_comment"
+              data-action="input->form#submitable"
+              data-textarea-autogrow-resize-debounce-delay-value="500"
+    ></textarea>
+</div>
+<button class="form--submit is--disabled" type="submit" data-form-target="submit">Post</button>

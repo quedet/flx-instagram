@@ -1,0 +1,132 @@
+@use "../foundations/breakpoints" as breakpoints;
+
+.profile {
+  .profile--container {
+    @apply px-4;
+
+    .profile--header {
+      @apply flex items-start py-8 border-b;
+
+      @include breakpoints.desktop-only {
+        @apply px-6;
+      }
+
+      @include breakpoints.tablet-and-mobile {
+        @apply px-6 gap-8;
+      }
+
+      .header--picture {
+        @apply basis-1/4 flex items-center justify-center;
+      }
+
+      .header--info {
+        @apply basis-3/4 flex flex-col gap-2;
+
+        .info--primary {
+          @apply flex;
+        }
+
+        .info--username {
+          @apply font-semibold;
+        }
+
+        .info--details {
+          @apply flex items-center gap-4;
+
+          @include breakpoints.mobile-only {
+            @apply text-sm;
+          }
+        }
+
+        @include breakpoints.desktop-only {
+          .info--primary {
+            @apply items-center justify-between;
+          }
+        }
+
+        @include breakpoints.tablet-and-mobile {
+          @apply gap-4;
+
+          .info--primary {
+            @apply flex-col gap-4;
+          }
+        }
+      }
+    }
+
+    .profile--navbar {
+      .navbar--menu {
+        @apply flex items-center justify-evenly w-full max-w-xl mx-auto;
+
+        .navbar--item {
+          .navbar--link {
+            @apply flex items-center gap-2 py-4 text-gray-700;
+          }
+
+          &.is--active {
+            .navbar--link {
+              @apply relative text-black transition-all;
+
+              &::after {
+                content: "";
+                width: 100%;
+                height: 1px;
+                position: absolute;
+                top: -1px;
+                left: 0;
+
+                @apply bg-gray-800;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .profile--contents {
+      @apply py-2;
+
+      .contents--placeholder {
+        @apply flex flex-col justify-center items-center gap-4 text-sm py-36;
+
+        .placeholder--icon {
+          @apply px-4 py-4 border rounded-full border-black;
+        }
+
+        .placeholder--title {
+          @apply font-bold text-2xl;
+        }
+
+        .placeholder--action {
+          @apply text-blue-500 font-semibold;
+
+          &:hover {
+            @apply text-black;
+          }
+        }
+      }
+    }
+
+    @include breakpoints.mobile-only {
+      @apply py-16;
+    }
+  }
+}
+
+.header--story--available {
+  @apply border-2 border-gray-300 rounded-full p-1;
+
+  img {
+    @apply bg-white;
+  }
+}
+
+.header--story--gradient {
+  @apply rounded-full p-1;
+
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+
+  img {
+    @apply p-1 bg-white;
+  }
+}

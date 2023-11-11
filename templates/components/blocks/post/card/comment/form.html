@@ -1,0 +1,7 @@
+<form method="post" class="card--comments form form--primary"
+      id="{{ media.mime_type }}#{{ media.id }}--comment--form"
+      data-action="submit->instagram#comment"
+      data-controller="form">
+    {% csrf_token %}
+    {% include "components/blocks/post/card/comment/form_inner.html" %}
+</form>

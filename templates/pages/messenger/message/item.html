@@ -1,0 +1,7 @@
+{% load humanize %}
+{% with request.user as current_user %}
+    <div class="items-start flex flex-col gap-1">
+        <div class="px-4 py-2 {% if request.user == m.user %} bg-blue-400 {% else %} bg-gray-400 {% endif %} text-white rounded-md">{{ m.text }}</div>
+        <div class="text-xs">{{ m.created_at|naturaltime }}</div>
+    </div>
+{% endwith %}

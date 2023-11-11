@@ -1,0 +1,23 @@
+{% load webpack_loader static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} &bull; Instagram</title>
+    {% stylesheet_pack 'app' %}
+    {% javascript_pack 'app' attrs='defer data-turbo-track="reload"' %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'vendors/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'vendors/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'vendors/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'vendors/favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'vendors/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body class="inst--registration">
+    <main class="inst--main">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

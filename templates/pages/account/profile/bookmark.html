@@ -1,0 +1,11 @@
+{% extends 'pages/account/profile/posts.html' %}
+
+{% block profile_contents %}
+    {% if account.bookmarks.count > 0 %}
+        <div class="contents--media--cards">
+             {% for media in account.bookmarks.all %}
+                {% include "components/blocks/post/card/lite.html" %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

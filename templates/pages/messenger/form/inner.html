@@ -1,0 +1,10 @@
+<div class="form--area">
+    <textarea data-controller="textarea-autogrow"
+              rows="1" placeholder="Write a message..."
+              class="form--area--input"
+              name="message" id="id_message"
+              data-action="input->form#submitable"
+              data-textarea-autogrow-resize-debounce-delay-value="500"
+    ></textarea>
+</div>
+<button class="card--comment--submit form--submit is--disabled" type="submit" data-form-target="submit">Post</button>
