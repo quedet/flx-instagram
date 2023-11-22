@@ -1,5 +1,6 @@
 ﻿# flx-instagram (Instagram Clone)
- 
+![alt text](showcase/home.jpeg)
+
 Developed an Instagram-like platform using HTML, CSS, JavaScript, Django, and PostgreSQL, to mimic the core features of the Instagram platform. It allows users to create accounts, share photos, follow other users, like and comment on posts, and explore content from various users.
 
 Main features:
