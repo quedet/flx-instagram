@@ -1,5 +1,5 @@
 <turbo-frame id="{{ request.turbo.frame }}">
-    <div class="media--uploader">
+    <div class="media--uploader upload">
         <div class="upload--header">
             <div>Create new post</div>
             <button type="button" data-action="click->modal#close">
@@ -7,7 +7,7 @@
             </button>
         </div>
         <form method="post"
-              class="upload--form"
+              class="upload--form editor"
               action="{% url 'core:create' %}"
               data-action="submit->uploader#submit"
               data-controller="uploader">

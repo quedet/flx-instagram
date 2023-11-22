@@ -103,9 +103,6 @@ export default class extends Controller {
             };
 
             reader.onloadend = function () {
-                select.classList.add('is--faded');
-                preview.classList.add('is--active');
-                progressBar.style.width = 0;
                 self.result = reader.result;
 
                 if (mimeType === 'video') {
@@ -113,6 +110,10 @@ export default class extends Controller {
                     let media = new Audio(reader.result);
 
                     media.onloadedmetadata = function () {
+                        select.classList.add('is--faded');
+                        preview.classList.add('is--active');
+                        progressBar.style.width = 0;
+
                         let duration = Math.round(media.duration);
 
                         if (duration < 60) {
@@ -157,12 +158,14 @@ export default class extends Controller {
                                 >Save</button>
                             </div>
                         `;
-
-
                     };
                 }
 
                 if (mimeType === 'image') {
+                    select.classList.add('is--faded');
+                    preview.classList.add('is--active');
+                    progressBar.style.width = 0;
+
                     preview.innerHTML = `
                         <div class="upload--media">
                             <img id="upload--media--image" data-tinyeditor-target="file" src="${reader.result}" alt="${file.name}" />

@@ -1,0 +1,98 @@
+@use "../foundations/breakpoints" as breakpoints;
+
+.upload--form {
+  @apply relative;
+
+  .upload--progress {
+    @apply h-2 absolute top-0 left-0 z-20 transition-all;
+
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+  }
+
+  .upload--drag {
+    @apply flex flex-col gap-4 items-center justify-center h-96 overflow-hidden;
+
+    &.is--faded {
+      @apply hidden;
+    }
+  }
+
+  .upload--preview {
+    @apply hidden;
+
+    &.is--active {
+      @apply block;
+    }
+  }
+}
+
+.upload--media {
+  @apply h-96 overflow-hidden bg-black relative text-white;
+
+  video {
+    @apply aspect-video mx-auto h-full w-full;
+  }
+
+  img {
+    display: block;
+    height: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .video--duration {
+    @apply absolute bottom-0 left-0 px-4 py-2 bg-black bg-opacity-50 w-full;
+  }
+}
+
+.upload--controls {
+  @apply flex flex-col gap-2;
+
+  .video--duration {
+    .duration--timestamp {
+      @apply flex items-center justify-between;
+    }
+  }
+
+  .video--slider {
+    @apply relative h-8 bg-gray-100;
+  }
+
+  .range--progress {
+    @apply h-8 bg-red-500 absolute left-0 right-1/4;
+  }
+
+  .range--input {
+    @apply relative;
+
+    input {
+      @apply absolute top-0 h-8 w-full bg-none appearance-none pointer-events-none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      @apply w-4 h-8 bg-green-400 appearance-none pointer-events-auto;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      @apply w-4 h-8 bg-green-400 appearance-none pointer-events-auto;
+    }
+  }
+}
+
+.upload--overview {
+  @apply px-4 py-2 max-h-28 overflow-y-auto;
+
+  .upload--overview--input {
+    @apply block w-full;
+  }
+}
+
+.upload--actions {
+  @apply flex items-center justify-between text-sm py-4 px-4 border-t;
+
+  .action--left {
+    @apply flex items-center gap-4 font-semibold;
+  }
+}

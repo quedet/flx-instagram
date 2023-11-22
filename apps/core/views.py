@@ -193,19 +193,46 @@ class CreateView(LoginRequiredMixin, TemplateView):
 
             obj = None
 
-            with open(file_path, 'wb+') as file:
-                for chunk in uploaded_file.chunks():
-                    file.write(chunk)
-
             if mimeType == 'image':
-                img = cv2.imread(file_path)
+                if "cropY" in request.POST and "cropHeight" in request.POST:
+                    temp_file_path = os.path.join(settings.MEDIA_ROOT, f'{request.user.uid}/assets/temp/{filename}')
+
+                    if not os.path.exists(os.path.join(settings.MEDIA_ROOT, f'{request.user.uid}/assets/temp')):
+                        os.mkdir(os.path.join(settings.MEDIA_ROOT, f'{request.user.uid}/assets/temp'))
+
+                    with open(temp_file_path, 'wb+') as file:
+                        for chunk in uploaded_file.chunks():
+                            file.write(chunk)
+
+                    cropX = int(request.POST.get('cropX'))
+                    cropY = int(request.POST.get('cropY'))
+                    cropWidth = int(request.POST.get('cropWidth'))
+                    cropHeight = int(request.POST.get('cropHeight'))
+
+                    temp_image = cv2.imread(temp_file_path)
+                    img = temp_image[cropY:cropY + cropHeight, cropX:cropX + cropWidth]
+                    cv2.imwrite(file_path, img)
+
+                    os.remove(temp_file_path)
+                else:
+                    with open(file_path, 'wb+') as file:
+                        for chunk in uploaded_file.chunks():
+                            file.write(chunk)
+                    img = cv2.imread(file_path)
+
                 height, width = img.shape[:2]
 
                 obj = Image(owner=request.user, type=type, width=width, height=height)
                 obj.source = f'{request.user.uid}/assets/{filename}'
+                print(request.POST)
+
                 obj.save()
 
             elif mimeType == 'video':
+                with open(file_path, 'wb+') as file:
+                    for chunk in uploaded_file.chunks():
+                        file.write(chunk)
+
                 vcap = cv2.VideoCapture(file_path)
                 width = int(vcap.get(cv2.CAP_PROP_FRAME_WIDTH))
                 height = int(vcap.get(cv2.CAP_PROP_FRAME_HEIGHT))
